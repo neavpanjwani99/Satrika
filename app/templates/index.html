@@ -1,0 +1,246 @@
+{% extends "base.html" %} {% block content %}
+
+<!-- Mobile Overlay -->
+<div
+  id="mobile-overlay"
+  class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden hidden"
+></div>
+
+<!-- Sidebar -->
+<aside
+  id="sidebar"
+  class="w-80 bg-[#141414] border-r border-gray-800 flex flex-col fixed md:relative h-full z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300"
+>
+  <!-- Header -->
+  <div class="p-6 border-b border-gray-800 flex justify-between items-center">
+    <div>
+      <h1 class="text-xl font-bold text-blue-400">Satrika</h1>
+      <p class="text-gray-400 text-sm">Your smart assistant</p>
+    </div>
+    <button id="close-sidebar" class="text-gray-400 hover:text-white md:hidden">
+      <i class="fas fa-times text-lg"></i>
+    </button>
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="p-6 border-b border-gray-800">
+    <h2 class="text-lg font-semibold mb-2">Welcome to Script</h2>
+    <p class="text-gray-400 text-sm mb-4">
+      Get started by Script a task and Chat can do the rest. Not sure where to
+      start?
+    </p>
+
+    <div class="grid grid-cols-2 gap-2 mb-4">
+      <button class="quick-action-btn" data-action="write-copy">
+        <span class="font-medium">Write copy</span>
+        <span class="text-xs text-gray-400">Image generation</span>
+      </button>
+      <button class="quick-action-btn" data-action="create-avatar">
+        <span class="font-medium">Create avatar</span>
+        <span class="text-xs text-gray-400">Write code</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="p-6 border-b border-gray-800">
+    <h2 class="text-gray-500 text-xs uppercase mb-2">Summary: The latest!</h2>
+    <div class="flex items-center space-x-2 mb-2">
+      <span class="text-sm">Attach</span>
+      <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full"
+        >+1</span
+      >
+      <span class="text-sm">Web Message</span>
+    </div>
+    <div class="flex justify-between items-center">
+      <span class="text-sm font-medium">Brenda Pinerata</span>
+      <span class="text-sm text-gray-400">267,8,000</span>
+    </div>
+  </div>
+
+  <!-- Projects Section -->
+  <div class="p-6 border-b border-gray-800">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-gray-500 text-xs uppercase">Project: (7)</h2>
+      <button
+        class="text-blue-400 text-sm font-medium hover:text-blue-300 transition"
+      >
+        New Project
+      </button>
+    </div>
+
+    <div class="space-y-3">
+      <div class="project-item">
+        <h3 class="text-sm font-medium">Learning From 100 Years A...</h3>
+        <p class="text-xs text-gray-400">For children, buy standard posts.</p>
+      </div>
+      <div class="project-item">
+        <h3 class="text-sm font-medium">Research officients</h3>
+        <p class="text-xs text-gray-400">Moment's reputation—the heart.</p>
+      </div>
+      <div class="project-item">
+        <h3 class="text-sm font-medium">What does a senior lead die.</h3>
+        <p class="text-xs text-gray-400">Throughout all important events.</p>
+      </div>
+      <div class="project-item">
+        <h3 class="text-sm font-medium">Write a credit note to you...</h3>
+        <p class="text-xs text-gray-400">In the supplement section give it.</p>
+      </div>
+      <div class="project-item">
+        <h3 class="text-sm font-medium">Meet with club holders</h3>
+        <p class="text-xs text-gray-400">Project choices in other records.</p>
+      </div>
+      <div class="project-item">
+        <h3 class="text-sm font-medium">Meet with club holders</h3>
+        <p class="text-xs text-gray-400">Project pieces in other records.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat List -->
+  <div class="flex-1 p-4">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-gray-500 text-xs uppercase">Chat History</h2>
+      <button
+        id="new-chat-btn"
+        class="text-xs bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-lg transition"
+      >
+        + New Chat
+      </button>
+    </div>
+    <ul id="chat-list" class="space-y-2">
+      <!-- Chats will be loaded here -->
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <div class="p-4 border-t border-gray-800">
+    <div class="flex items-center space-x-3">
+      <div
+        class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"
+      >
+        <span class="text-sm font-semibold">EC</span>
+      </div>
+      <div>
+        <p class="text-sm font-medium">Emilia Casini</p>
+        <p class="text-xs text-gray-400">Templatespace agency</p>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0">
+  <!-- Top Bar -->
+  <div
+    class="p-4 border-b border-gray-800 flex items-center justify-between bg-[#0D0D0D]"
+  >
+    <button
+      id="toggle-sidebar"
+      class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800 transition"
+    >
+      <i class="fas fa-bars text-lg"></i>
+    </button>
+    <div class="flex items-center space-x-4">
+      <button
+        class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800 transition"
+      >
+        <i class="far fa-bell"></i>
+      </button>
+      <button
+        class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800 transition"
+      >
+        <i class="far fa-user"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages Area -->
+  <div class="flex-1 overflow-y-auto px-4 md:px-6 py-6" id="chat-container">
+    <!-- Welcome message - shown when no messages -->
+    <div
+      id="welcome-message"
+      class="h-full flex flex-col items-center justify-center text-center px-4"
+    >
+      <div
+        class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4"
+      >
+        <i class="fas fa-robot text-white text-2xl"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Welcome to Satrika</h2>
+      <p class="text-gray-400 max-w-md mb-6">
+        Your smart assistant is ready to help. Start a new chat or select an
+        existing one from the sidebar.
+      </p>
+      <button
+        id="welcome-new-chat"
+        class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl transition"
+      >
+        Start New Chat
+      </button>
+    </div>
+    <!-- Messages will be loaded here -->
+  </div>
+
+  <!-- Input Bar -->
+  <div class="border-t border-gray-800 p-4 bg-[#0D0D0D]">
+    <div class="flex items-center space-x-3 max-w-4xl mx-auto">
+      <input
+        id="user-input"
+        type="text"
+        placeholder="Type your message..."
+        class="flex-1 px-4 py-3 rounded-2xl bg-[#1E1E1E] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
+      />
+      <button
+        id="send-btn"
+        class="p-3 bg-blue-600 rounded-full hover:bg-blue-700 transition transform hover:scale-105 shadow-lg"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 text-white"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4.5 12.75l15-7.5-7.5 15-2.25-6-6-2.25z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- Edit Chat Modal -->
+<div
+  id="edit-chat-modal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+>
+  <div class="bg-[#1E1E1E] rounded-xl p-6 w-96 mx-4">
+    <h3 class="text-lg font-bold mb-4">Edit Chat Title</h3>
+    <input
+      type="text"
+      id="edit-chat-title"
+      class="w-full px-4 py-2 rounded-lg bg-[#2A2A2A] text-white mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <div class="flex justify-end space-x-3">
+      <button
+        id="cancel-edit"
+        class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition"
+      >
+        Cancel
+      </button>
+      <button
+        id="save-edit"
+        class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
