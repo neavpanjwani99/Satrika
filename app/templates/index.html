@@ -119,11 +119,11 @@
       <div
         class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"
       >
-        <span class="text-sm font-semibold">EC</span>
+        <span class="text-sm font-semibold">𝓝𝓟</span>
       </div>
       <div>
-        <p class="text-sm font-medium">Emilia Casini</p>
-        <p class="text-xs text-gray-400">Templatespace agency</p>
+        <p class="text-sm font-medium">𝑵𝒆𝒂𝒗 𝑷𝒂𝒏𝒋𝒘𝒂𝒏𝒊</p>
+        <p class="text-xs text-gray-400">𝑷𝒐𝒘𝒆𝒓𝒆𝒅 𝒃𝒚 𝒄𝒂𝒇𝒇𝒆𝒊𝒏𝒆 𝒂𝒏𝒅 𝒄𝒐𝒅𝒆.</p>
       </div>
     </div>
   </div>
@@ -167,7 +167,7 @@
       >
         <i class="fas fa-robot text-white text-2xl"></i>
       </div>
-      <h2 class="text-2xl font-bold mb-2">Welcome to Satrika</h2>
+      <h2 class="text-2xl font-bold mb-2">Welcome to <b style="font-size: 28px;">𝑺𝒂𝒕𝒓𝒊𝒌𝒂</b></h2>
       <p class="text-gray-400 max-w-md mb-6">
         Your smart assistant is ready to help. Start a new chat or select an
         existing one from the sidebar.
@@ -184,34 +184,61 @@
 
   <!-- Input Bar -->
   <div class="border-t border-gray-800 p-4 bg-[#0D0D0D]">
-    <div class="flex items-center space-x-3 max-w-4xl mx-auto">
-      <input
-        id="user-input"
-        type="text"
-        placeholder="Type your message..."
-        class="flex-1 px-4 py-3 rounded-2xl bg-[#1E1E1E] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-      />
-      <button
-        id="send-btn"
-        class="p-3 bg-blue-600 rounded-full hover:bg-blue-700 transition transform hover:scale-105 shadow-lg"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5 text-white"
+    <div class="max-w-4xl mx-auto space-y-3">
+      
+      <!-- Model Selector -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-xs uppercase tracking-wide text-gray-500">
+            Model
+          </span>
+          <span class="text-[11px] px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/40">
+            Powered by Gemini
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <select
+            id="model-select"
+            class="text-xs md:text-sm bg-[#1E1E1E] border border-gray-700 rounded-xl px-3 py-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="normal">Chat · Flash (Default)</option>
+            <option value="nano">Fast · Nano Model</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="flex items-center space-x-3">
+        <input
+          id="user-input"
+          type="text"
+          placeholder="Ask anything..."
+          class="flex-1 px-4 py-3 rounded-2xl bg-[#1E1E1E] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 text-sm md:text-base"
+        />
+        <button
+          id="send-btn"
+          class="p-3 bg-blue-600 rounded-full hover:bg-blue-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4.5 12.75l15-7.5-7.5 15-2.25-6-6-2.25z"
-          />
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5 text-white"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12.75l15-7.5-7.5 15-2.25-6-6-2.25z"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
+
 </main>
 
 <!-- Edit Chat Modal -->
