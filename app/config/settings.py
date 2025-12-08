@@ -1,14 +1,17 @@
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env
+# variable load karne ke liye 
 load_dotenv()
 
 class Config:
-    # 1st key (jo tumne OPENAI_API_KEY me rakhi hai)
+    # first google api key
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-    # 2nd key (nano / dusra Gemini project)
+    # first rply ke liye dusri key 
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    
+    # deapi key for image generation
+    DEAPI_KEY = os.getenv("de_api_key")
 
     SECRET_KEY = os.getenv("SECRET_KEY", "dev_secret_key")

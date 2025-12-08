@@ -31,19 +31,41 @@
     </p>
 
     <div class="grid grid-cols-2 gap-2 mb-4">
-      <button class="quick-action-btn" data-action="write-copy">
-        <span class="font-medium">Write copy</span>
-        <span class="text-xs text-gray-400">Image generation</span>
+      <button class="quick-action-btn" data-action="Peace5">
+        <span class="font-medium">USIP</span>
+        <span class="text-xs text-gray-400">Peace Reset</span>
       </button>
       <button class="quick-action-btn" data-action="create-avatar">
         <span class="font-medium">Create avatar</span>
         <span class="text-xs text-gray-400">Write code</span>
       </button>
     </div>
+
+    <div class="grid grid-cols-2 gap-2 mb-4">
+      <button class="quick-action-btn" data-action="Home-Harmony-Planner">
+        <span class="font-medium">Day Plan</span>
+        <span class="text-xs text-gray-400">Event Planning</span>
+      </button>
+      <button class="quick-action-btn" data-action="MealMap">
+        <span class="font-medium">Meal Map</span>
+        <span class="text-xs text-gray-400">Meal plans</span>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2 mb-4">
+      <button class="quick-action-btn" data-action="DailyPuja">
+        <span class="font-medium">Daily Puja</span>
+        <span class="text-xs text-gray-400">Daily Ritual Guide</span>
+      </button>
+      <button class="quick-action-btn" data-action="HolySummary">
+        <span class="font-medium">Holy Summary</span>
+        <span class="text-xs text-gray-400">Scripture Simplifier</span>
+      </button>
+    </div>
   </div>
 
   <!-- Summary Section -->
-  <div class="p-6 border-b border-gray-800">
+  <!--<div class="p-6 border-b border-gray-800">
     <h2 class="text-gray-500 text-xs uppercase mb-2">Summary: The latest!</h2>
     <div class="flex items-center space-x-2 mb-2">
       <span class="text-sm">Attach</span>
@@ -56,10 +78,10 @@
       <span class="text-sm font-medium">Brenda Pinerata</span>
       <span class="text-sm text-gray-400">267,8,000</span>
     </div>
-  </div>
+  </div>-->
 
   <!-- Projects Section -->
-  <div class="p-6 border-b border-gray-800">
+  <!--<div class="p-6 border-b border-gray-800">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-gray-500 text-xs uppercase">Project: (7)</h2>
       <button
@@ -95,7 +117,7 @@
         <p class="text-xs text-gray-400">Project pieces in other records.</p>
       </div>
     </div>
-  </div>
+  </div>-->
 
   <!-- Chat List -->
   <div class="flex-1 p-4">
@@ -167,7 +189,9 @@
       >
         <i class="fas fa-robot text-white text-2xl"></i>
       </div>
-      <h2 class="text-2xl font-bold mb-2">Welcome to <b style="font-size: 28px;">𝑺𝒂𝒕𝒓𝒊𝒌𝒂</b></h2>
+      <h2 class="text-2xl font-bold mb-2">
+        Welcome to <b style="font-size: 28px">𝑺𝒂𝒕𝒓𝒊𝒌𝒂</b>
+      </h2>
       <p class="text-gray-400 max-w-md mb-6">
         Your smart assistant is ready to help. Start a new chat or select an
         existing one from the sidebar.
@@ -185,14 +209,15 @@
   <!-- Input Bar -->
   <div class="border-t border-gray-800 p-4 bg-[#0D0D0D]">
     <div class="max-w-4xl mx-auto space-y-3">
-      
       <!-- Model Selector -->
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="text-xs uppercase tracking-wide text-gray-500">
             Model
           </span>
-          <span class="text-[11px] px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/40">
+          <span
+            class="text-[11px] px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/40"
+          >
             Powered by Gemini
           </span>
         </div>
@@ -216,6 +241,17 @@
           placeholder="Ask anything..."
           class="flex-1 px-4 py-3 rounded-2xl bg-[#1E1E1E] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 text-sm md:text-base"
         />
+
+        <!-- Image generate button -->
+        <button
+          id="image-btn"
+          class="p-3 bg-purple-600 rounded-full hover:bg-purple-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center"
+          title="Generate image from prompt"
+        >
+          <i class="far fa-image text-white text-lg"></i>
+        </button>
+
+        <!-- Normal chat send button -->
         <button
           id="send-btn"
           class="p-3 bg-blue-600 rounded-full hover:bg-blue-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center"
@@ -238,7 +274,6 @@
       </div>
     </div>
   </div>
-
 </main>
 
 <!-- Edit Chat Modal -->

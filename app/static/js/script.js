@@ -1,8 +1,8 @@
-// ======= CONFIG =======
+
 let currentSession = null;
 let editingChatId = null;
 
-// DOM Elements
+// DOM elements 
 const chatContainer = document.getElementById("chat-container");
 const userInput = document.getElementById("user-input");
 const chatList = document.getElementById("chat-list");
@@ -17,7 +17,7 @@ const editChatTitle = document.getElementById("edit-chat-title");
 const cancelEditBtn = document.getElementById("cancel-edit");
 const saveEditBtn = document.getElementById("save-edit");
 
-// ======= SIDEBAR FUNCTIONS (Tailwind classes use kar ke) =======
+// tailwind class use for slidebar
 function openSidebar() {
   console.log("Opening sidebar");
   sidebar.classList.remove("-translate-x-full");
@@ -27,7 +27,6 @@ function openSidebar() {
 
 function closeSidebar() {
   console.log("Closing sidebar");
-  // Mobile par hi slide-out kare
   if (window.innerWidth <= 768) {
     sidebar.classList.add("-translate-x-full");
     sidebar.classList.remove("translate-x-0");
@@ -45,9 +44,8 @@ function toggleSidebar() {
   }
 }
 
-// ======= MESSAGE DISPLAY =======
+// mesg display
 function updateWelcomeMessage() {
-  // Sirf .message divs check karo
   const hasMessages = chatContainer.querySelector(".message") !== null;
 
   if (hasMessages) {
@@ -62,7 +60,6 @@ function updateWelcomeMessage() {
 }
 
 function clearMessagesOnly() {
-  // Welcome message ko mat hatao, sirf .message nodes remove karo
   chatContainer.querySelectorAll(".message").forEach((el) => el.remove());
 }
 
@@ -81,7 +78,11 @@ function renderMessages(messages) {
 
     const bubble = document.createElement("div");
     bubble.classList.add("bubble");
-    bubble.innerHTML = `<p>${msg.message}</p>`;
+
+    //bubble.innerHTML = `<p>${msg.message}</p>`;
+
+    bubble.classList.add("bot-content");
+    bubble.innerHTML = marked.parse(msg.message || "");
 
     messageDiv.appendChild(bubble);
     chatContainer.appendChild(messageDiv);
@@ -91,7 +92,7 @@ function renderMessages(messages) {
   updateWelcomeMessage();
 }
 
-// ======= CHAT MANAGEMENT =======
+// chat management kiya hai 
 function createChatItem(chat) {
   const li = document.createElement("li");
   li.classList.add("chat-item");
@@ -110,23 +111,17 @@ function createChatItem(chat) {
       </button>
     </div>
   `;
-
-  // Click to load chat (agar actions pe click nahi hua ho to)
   li.addEventListener("click", (e) => {
     if (!e.target.closest(".chat-actions")) {
       console.log("Loading chat:", chat.id);
       loadChat(chat.id);
     }
   });
-
-  // Edit button
   li.querySelector(".edit-chat").addEventListener("click", (e) => {
     e.stopPropagation();
     console.log("Editing chat:", chat.id);
     openEditModal(chat.id, chat.title);
   });
-
-  // Delete button
   li.querySelector(".delete-chat").addEventListener("click", (e) => {
     e.stopPropagation();
     console.log("Deleting chat:", chat.id);
@@ -154,8 +149,6 @@ async function loadChatList() {
       chatList.appendChild(emptyMsg);
       return;
     }
-
-    // Newest first
     chats.sort(
       (a, b) =>
         new Date(b.timestamp || b.created_at) -
@@ -183,14 +176,11 @@ async function startNewChat() {
     console.log("New chat created:", chat);
     currentSession = chat.id;
 
-    // Clear chat area (sirf messages) and show welcome
     clearMessagesOnly();
     updateWelcomeMessage();
     userInput.value = "";
 
     await loadChatList();
-
-    // Close sidebar on mobile
     if (window.innerWidth <= 768) {
       closeSidebar();
     }
@@ -214,8 +204,6 @@ async function loadChat(session_id) {
     currentSession = session_id;
     renderMessages(chat.messages || []);
     await loadChatList();
-
-    // Close sidebar on mobile
     if (window.innerWidth <= 768) {
       closeSidebar();
     }
@@ -228,7 +216,7 @@ async function loadChat(session_id) {
 }
 
 async function deleteChat(session_id) {
-  if (!confirm("Are you sure you want to delete this chat?")) {
+  if (!confirm("sure to delete this chat ?")) {
     return;
   }
 
@@ -239,7 +227,6 @@ async function deleteChat(session_id) {
     });
 
     if (res.ok) {
-      // If deleting current chat, clear UI
       if (currentSession === session_id) {
         currentSession = null;
         clearMessagesOnly();
@@ -256,7 +243,7 @@ async function deleteChat(session_id) {
   }
 }
 
-// ======= EDIT MODAL FUNCTIONS =======
+// model function 
 function openEditModal(chatId, currentTitle) {
   editingChatId = chatId;
   editChatTitle.value = currentTitle;
@@ -295,7 +282,7 @@ async function updateChatTitle() {
   }
 }
 
-// ======= MESSAGE SENDING =======
+// sending message 
 async function sendMessage() {
   const message = userInput.value.trim();
   if (!message) {
@@ -303,16 +290,13 @@ async function sendMessage() {
     return;
   }
 
-  // If no current session, create one first
   if (!currentSession) {
     await startNewChat();
-    // slight delay, just in case
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 
   console.log("Sending message to session:", currentSession);
 
-  // Show user message immediately
   const userMessageDiv = document.createElement("div");
   userMessageDiv.classList.add("message", "user");
 
@@ -347,8 +331,8 @@ async function sendMessage() {
     botMessageDiv.classList.add("message", "bot");
 
     const botBubble = document.createElement("div");
-    botBubble.classList.add("bubble");
-    botBubble.innerHTML = `<p>${data.reply}</p>`;
+    botBubble.classList.add("bubble", "bot-content");
+    botBubble.innerHTML = marked.parse(data.reply || "");
 
     botMessageDiv.appendChild(botBubble);
     chatContainer.appendChild(botMessageDiv);
@@ -372,7 +356,91 @@ async function sendMessage() {
   }
 }
 
-// ======= QUICK ACTIONS =======
+async function callImageAPI(prompt, sessionId) {
+  const res = await fetch("/generate_image", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt, session_id: sessionId }),
+  });
+
+  let data = null;
+  try { data = await res.json(); } catch (e) {}
+
+  if (!res.ok) {
+    const msg = (data && (data.error || data.message)) || `HTTP ${res.status}`;
+    throw new Error(msg);
+  }
+
+  return data; // request_id, status, image_url, preview_url
+}
+
+async function sendImagePrompt() {
+  const message = userInput.value.trim();
+  if (!message) {
+    alert("Please enter a prompt for the image");
+    return;
+  }
+
+  if (!currentSession) {
+    await startNewChat();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  // user bubble...
+  const userMessageDiv = document.createElement("div");
+  userMessageDiv.classList.add("message", "user");
+  const userBubble = document.createElement("div");
+  userBubble.classList.add("bubble");
+  userBubble.innerHTML = `<p>${message}</p>`;
+  userMessageDiv.appendChild(userBubble);
+  chatContainer.appendChild(userMessageDiv);
+  userInput.value = "";
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+  updateWelcomeMessage();
+
+  try {
+    const data = await callImageAPI(message, currentSession);
+    console.log("Image API response:", data);
+
+    const botMessageDiv = document.createElement("div");
+    botMessageDiv.classList.add("message", "bot");
+    const botBubble = document.createElement("div");
+    botBubble.classList.add("bubble", "bot-content");
+
+    if (data.image_url) {
+      botBubble.innerHTML = `
+        <p><strong>Generated image</strong></p>
+        <img src="${data.image_url}" alt="Generated image"
+             class="mt-2 rounded-lg max-w-full">
+      `;
+    } else {
+      botBubble.innerHTML = `
+        <p><strong>Generated image</strong></p>
+        <p class="text-red-400">Sorry, generation failed.</p>
+      `;
+    }
+
+    botMessageDiv.appendChild(botBubble);
+    chatContainer.appendChild(botMessageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    await loadChatList();
+  } catch (error) {
+    console.error("generation error:", error);
+    const errorMessageDiv = document.createElement("div");
+    errorMessageDiv.classList.add("message", "bot");
+    const errorBubble = document.createElement("div");
+    errorBubble.classList.add("bubble");
+    errorBubble.innerHTML = `
+      <p class="text-red-400">Sorry, image generation error triggered.</p>
+      <p class="text-xs text-red-300">${error.message || "unknown error"}</p>
+    `;
+    errorMessageDiv.appendChild(errorBubble);
+    chatContainer.appendChild(errorMessageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+}
+
+// quick action (chote chote prompt diye hai uder men)
 function setupQuickActions() {
   document.querySelectorAll(".quick-action-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
@@ -380,13 +448,29 @@ function setupQuickActions() {
       let message = "";
 
       switch (action) {
-        case "write-copy":
+        case "Peace5":
           message =
-            "Help me write compelling copy for my product launch";
+            "Give me a 5-minute meditation routine that reduces stress and brings inner calm";
           break;
         case "create-avatar":
           message =
             "Create an AI avatar for my social media profile";
+          break;
+        case "Home-Harmony-Planner":
+          message =
+            "Create a simple daily routine for a woman managing home, cooking, cleaning, kids, and personal time. Keep it practical and not overloaded.";
+          break;
+        case "MealMap":
+          message =
+            "Give me a weekly vegetarian meal plan with breakfast, lunch, dinner, and healthy snacks.";
+          break;
+        case "DailyPuja":
+          message =
+            "Make a simple morning + evening devotional routine with small prayers and meditation.";
+          break;
+        case "HolySummary":
+          message =
+            "Summarize the key teachings of (scripture name) in very simple words.";
           break;
       }
 
@@ -398,7 +482,7 @@ function setupQuickActions() {
   });
 }
 
-// ======= EVENT LISTENERS =======
+// event listner
 function setupEventListeners() {
   console.log("Setting up event listeners.");
 
@@ -407,27 +491,30 @@ function setupEventListeners() {
     .getElementById("send-btn")
     .addEventListener("click", sendMessage);
   document
+    .getElementById("image-btn")
+    .addEventListener("click", sendImagePrompt);
+
+  document
     .getElementById("new-chat-btn")
     .addEventListener("click", startNewChat);
   welcomeNewChatBtn.addEventListener("click", startNewChat);
   toggleSidebarBtn.addEventListener("click", toggleSidebar);
   closeSidebarBtn.addEventListener("click", closeSidebar);
 
-  // Modal buttons
+  // modal button
   cancelEditBtn.addEventListener("click", closeEditModal);
   saveEditBtn.addEventListener("click", updateChatTitle);
 
-  // Input Enter key
+  // enter key for input 
   userInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       sendMessage();
     }
   });
 
-  // Overlay click to close sidebar
+  // slidebar close karne ke liye 
   mobileOverlay.addEventListener("click", closeSidebar);
 
-  // Escape key to close modal / sidebar
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       if (!editChatModal.classList.contains("hidden")) {
@@ -441,7 +528,6 @@ function setupEventListeners() {
     }
   });
 
-  // Click outside modal to close
   editChatModal.addEventListener("click", (e) => {
     if (e.target === editChatModal) {
       closeEditModal();
@@ -449,7 +535,7 @@ function setupEventListeners() {
   });
 }
 
-// ======= INITIALIZATION =======
+// initialization 
 async function initializeApp() {
   console.log("Initializing app.");
 
@@ -458,10 +544,8 @@ async function initializeApp() {
   updateWelcomeMessage();
 
   try {
-    // Load chat list first
     await loadChatList();
 
-    // Try to load the most recent chat
     const res = await fetch("/list_chats");
     const chats = await res.json();
 
@@ -473,7 +557,6 @@ async function initializeApp() {
       )[0];
       await loadChat(mostRecentChat.id);
     } else {
-      // No chats exist, create a new one
       await startNewChat();
     }
   } catch (error) {
@@ -484,15 +567,11 @@ async function initializeApp() {
 
 // Start the app when page loads
 window.addEventListener("load", initializeApp);
-
-// Handle window resize for responsive sidebar
 window.addEventListener("resize", () => {
   if (window.innerWidth > 768) {
-    // Desktop: Tailwind ka md:translate-x-0 handle karega
     sidebar.classList.remove("-translate-x-full", "translate-x-0");
     mobileOverlay.classList.add("hidden");
   } else {
-    // Mobile: agar open nahi hai to hidden rakho
     if (!sidebar.classList.contains("translate-x-0")) {
       sidebar.classList.add("-translate-x-full");
     }

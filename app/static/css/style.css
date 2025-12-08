@@ -204,3 +204,53 @@ main {
 .no-messages #welcome-message {
   display: flex;
 }
+
+.bubble {
+  max-width: 70%;
+  overflow-x: auto;   /* table wide ho to andar scroll */
+}
+
+@media (max-width: 768px) {
+  .bubble {
+    max-width: 100%;
+    font-size: 12px;
+  }
+}
+
+.bot-content p {
+  margin: 4px 0;
+  line-height: 1.6;
+}
+
+.bot-content h1,
+.bot-content h2,
+.bot-content h3 {
+  margin: 6px 0 4px;
+  font-weight: 600;
+}
+
+.bot-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.bot-content table,
+.bot-content th,
+.bot-content td {
+  border: 1px solid #333;
+  padding: 4px 6px;
+  vertical-align: top;
+}
+.bot-content th {
+  background-color: #222;
+  font-weight: 600;
+}
+
+.bot-content img {
+  margin-top: 8px;
+  border-radius: 12px;
+  max-width: 100%;
+  display: block;
+}
